@@ -131,7 +131,9 @@ fun SecretSpotItem(spot: SecretSpot, onDismiss: (SecretSpot) -> Unit, onEdit: (S
                 ) {
                     Icon(
                         imageVector = Icons.Default.Delete,
-                        contentDescription = null
+                        contentDescription = null,
+                        modifier = Modifier
+                            .testTag("deleteButton")
                     )
                 }
             },

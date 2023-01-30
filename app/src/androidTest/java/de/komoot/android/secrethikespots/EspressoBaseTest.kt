@@ -1,39 +1,59 @@
-package com.example.android.architecture.blueprints.todoapp
+package de.komoot.android.secrethikespots
 
 import android.util.Log
+import androidx.test.InstrumentationRegistry.getTargetContext
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
+import androidx.test.platform.app.InstrumentationRegistry
 
 
 open class EspressoBaseTest {
 
-    fun clickButton(resourceId: Int) {
+    private fun stringIdToResourceId(stringId: String): Int {
+        return try {
+            val resources = getTargetContext().resources
+            resources.getIdentifier(stringId, "id", getTargetContext().packageName)
+        } catch (e: Exception) {
+            Log.e("EspressoBaseTest", "Error converting string id to resource id: $e")
+            0
+        }
+    }
+
+    private fun testTagToResourceId(tag: String): Int {
+        return try {
+            val resources = getTargetContext().resources
+            resources.getIdentifier(tag, "testTag", getTargetContext().packageName)
+        } catch (e: Exception) {
+            Log.e("EspressoBaseTest", "Error converting test tag to resource id: $e")
+            0
+        }
+    }
+
+    fun clickButtonWithTestTag(tag: String) {
+        val resourceId = testTagToResourceId(tag)
+        onView(withTagKey(resourceId))
+            .perform(click())
+    }
+
+    fun clickButton(stringId: String) {
+        val resourceId = stringIdToResourceId(stringId)
         onView(withId(resourceId))
             .perform(click())
     }
 
-    fun fillInWithText(resourceId: Int, text: String) {
+    fun fillInWithText(stringId: String, text: String) {
+        val resourceId = stringIdToResourceId(stringId)
         onView(withId(resourceId))
             .perform(click())
             .perform(ViewActions.typeText(text), ViewActions.closeSoftKeyboard())
     }
 
-    fun clickOnViewWithText(text: String) {
-        onView(withText(text))
-            .check(matches(isDisplayed()))
-            .perform(click())
-    }
-
-    fun checkElementContainsText(resourceId: Int, text: String) {
+    fun checkElementContainsText(stringId: String, text: String) {
+        val resourceId = stringIdToResourceId(stringId)
         onView(withId(resourceId))
-            .check(matches(withText(text)))
-    }
-
-    fun checkElementWithTextExist(text: String) {
-        onView(withText(text))
             .check(matches(withText(text)))
     }
 }
