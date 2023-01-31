@@ -101,7 +101,7 @@ fun AddSpotActionButton(onClick : () -> Unit) {
     FloatingActionButton(onClick = onClick) {
         Icon(
             imageVector = Icons.Default.Add,
-            contentDescription = null,
+            contentDescription = "addSpotButton",
             tint = Color.Yellow,
             modifier = Modifier.testTag("addSpot")
         )
@@ -112,7 +112,8 @@ fun AddSpotActionButton(onClick : () -> Unit) {
 @Composable
 fun SecretSpotItem(spot: SecretSpot, onDismiss: (SecretSpot) -> Unit, onEdit: (SecretSpot) -> Unit, onNavigate: (SecretSpot) -> Unit) {
     Box(
-        Modifier.padding(start = 16.dp, top = 16.dp, end = 16.dp)
+        Modifier
+            .padding(start = 16.dp, top = 16.dp, end = 16.dp)
     ) {
         val dismissState = rememberDismissState()
 
@@ -142,7 +143,9 @@ fun SecretSpotItem(spot: SecretSpot, onDismiss: (SecretSpot) -> Unit, onEdit: (S
             Card {
                 Box(
                     contentAlignment = Alignment.CenterStart,
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .testTag("spotCard")
                 ) {
                     val file = File(spot.image)
                     if (file.exists()) {
@@ -188,7 +191,7 @@ fun SecretSpots(
         Modifier
             .fillMaxSize()
             .padding(padding),
-        userScrollEnabled = false
+        userScrollEnabled = true
     ) {
         items(spots.value, { it.id }) {
             SecretSpotItem(it, onDismiss, onEdit, onNavigate)

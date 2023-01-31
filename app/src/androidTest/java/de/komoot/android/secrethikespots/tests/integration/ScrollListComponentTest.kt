@@ -10,6 +10,9 @@ import androidx.compose.ui.test.junit4.ComposeTestRule
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.unit.dp
+import androidx.test.espresso.Espresso
+import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.mapbox.mapboxsdk.geometry.LatLng
@@ -17,6 +20,7 @@ import de.komoot.android.secrethikespots.model.SecretSpot
 import de.komoot.android.secrethikespots.ui.SecretHikeSpotsTheme
 import de.komoot.android.secrethikespots.ui.SecretSpots
 import de.komoot.android.secrethikespots.ui.SpotListActivity
+import org.hamcrest.CoreMatchers
 
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -24,11 +28,6 @@ import org.junit.runner.RunWith
 import org.junit.Assert.*
 import org.junit.Rule
 
-/**
- * Instrumented test, which will execute on an Android device.
- *
- * See [testing documentation](http://d.android.com/tools/testing).
- */
 @RunWith(AndroidJUnit4::class)
 class ScrollListComponentTest {
 
@@ -36,7 +35,7 @@ class ScrollListComponentTest {
     val composeTestRule = createComposeRule()
 
     @Test
-    fun myTest() {
+    fun testSpotListIsScrollable() {
         // Start the app
         composeTestRule.setContent {
             val flow = remember {
@@ -59,9 +58,11 @@ class ScrollListComponentTest {
         composeTestRule.onRoot().performTouchInput {
             swipeUp()
         }
-        Thread.sleep(5000)
-        composeTestRule.onNodeWithText("spot 20")
+        composeTestRule.onNodeWithText("spot 19")
             .assertIsDisplayed()
+
+        Espresso.onView(ViewMatchers.withTagValue(CoreMatchers.equalTo("addSpot")))
+            .perform(ViewActions.click())
 
     }
 }
