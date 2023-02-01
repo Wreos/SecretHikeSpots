@@ -2,8 +2,12 @@ package de.komoot.android.secrethikespots.tests.e2e
 
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.test.espresso.Espresso
+import androidx.test.espresso.assertion.ViewAssertions
+import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
+import de.komoot.android.secrethikespots.R
 import de.komoot.android.secrethikespots.data.SecretSpotDb
 import de.komoot.android.secrethikespots.data.SecretSpotEntity
 import de.komoot.android.secrethikespots.ui.SpotListActivity
@@ -46,6 +50,9 @@ class OpenSpotTest {
 
     @Test
     fun openSpotItem() {
-        // Unfortunately, i was not able to implement it, as for the some reasons I am not able to tap on card which was generated via db
+        composeTestRule.onNodeWithTag("spotCard", useUnmergedTree = true).performClick()
+        Espresso.onView(ViewMatchers.withId(R.id.map))
+            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+        // Unfortunately, i couldn't proceed with it, as app has a bug - if spot doesn't have a image, user is not able to open it
     }
 }

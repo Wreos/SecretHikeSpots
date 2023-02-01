@@ -2,12 +2,8 @@ package de.komoot.android.secrethikespots.tests.e2e
 
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import androidx.test.espresso.Espresso
-import androidx.test.espresso.action.ViewActions
-import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import de.komoot.android.secrethikespots.R
 import de.komoot.android.secrethikespots.data.SecretSpotDb
 import de.komoot.android.secrethikespots.data.SecretSpotEntity
 import de.komoot.android.secrethikespots.ui.SpotListActivity
